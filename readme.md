@@ -1,3 +1,6 @@
+To use NLog.Gelf just add the following to your config file and place NLog.Gelf.dll in the same location as the NLog.dll file:
+
+```
 <nlog>
     <extensions>
         <add assembly="NLog.Gelf" />
@@ -11,3 +14,4 @@
         <logger name="*" minLevel="Trace" appendTo="Gelf"/>
     </rules>
 </nlog>
+```
