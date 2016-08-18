@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>NLog.Gelf</id>
+        <title>NLog.Gelf</title>
+        <description>NLog.Gelf Http Handler</description>
+        <version>$version$</version>
+        <authors>Mantas Audickas</authors>
+        <projectUrl>https://github.com/mantasaudickas/NLog.Gelf</projectUrl>
+    </metadata>
+</package>
