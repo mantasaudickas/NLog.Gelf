@@ -3,7 +3,7 @@
     <metadata>
         <id>NLog.Gelf</id>
         <title>NLog.Gelf</title>
-        <description>NLog.Gelf Http Handler</description>
+        <description>NLog.Gelf custom target for NLog and Graylog2 Gelf HTTP input</description>
         <version>$version$</version>
         <authors>Mantas Audickas</authors>
         <projectUrl>https://github.com/mantasaudickas/NLog.Gelf</projectUrl>

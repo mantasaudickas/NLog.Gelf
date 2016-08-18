@@ -1,3 +1,9 @@
+Extension is developed using .NET core targeting .net standard 1.3.
+It can be added also to regular .NET project, however make sure to add these additional nuget packages:
+- System.Net.Http
+- System.Net.NameResolution
+
+
 To use NLog.Gelf just add the following to your config file and place NLog.Gelf.dll in the same location as the NLog.dll file:
 
 ```
@@ -7,7 +13,7 @@ To use NLog.Gelf just add the following to your config file and place NLog.Gelf.
     </extensions>
 
     <targets>
-        <target name="Gelf" type="GelfHttp" serverUrl="http://localhost:12202"/>
+        <target name="Gelf" type="GelfHttp" serverUrl="http://localhost:12202" facility="your app name"/>
     </targets>
 
     <rules>
