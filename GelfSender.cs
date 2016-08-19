@@ -23,6 +23,7 @@ namespace NLog.Gelf
             Add(json, "full_message", message.FullMessage);
             Add(json, "host", message.Host);
             Add(json, "level", message.Level.ToString());
+            Add(json, "levelName", message.LevelName);
             Add(json, "short_message", message.ShortMessage);
             Add(json, "_exception_type", message.ExceptionType);
             Add(json, "_exception_message", message.ExceptionMessage);
