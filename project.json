@@ -1,0 +1,33 @@
+﻿{
+  "version": "1.0.6-*",
+
+  "dependencies": {
+    "Newtonsoft.Json": "9.0.1"
+    
+  },
+
+  "frameworks": {
+    "netstandard1.3": {
+      "dependencies": {
+        "NLog.Extensions.Logging": "1.0.0-rtm-alpha4"
+      }
+    },
+    "net461": {
+      "dependencies": {
+        "NLog": "4.3.7"
+      },
+      "frameworkAssemblies": {
+        "System.Net.Http": "4.0.0.0"
+      }
+    }
+  },
+
+  "name": "NLog.Gelf",
+  "packOptions": {
+    "projectUrl": "https://github.com/mantasaudickas/NLog.Gelf",
+    "repository": {
+      "url": "https://github.com/mantasaudickas/NLog.Gelf"
+    }
+  },
+  "authors": [ "Mantas Audickas" ]
+}

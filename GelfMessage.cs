@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace NLog.Gelf.Net
+namespace NLog.Gelf
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class GelfMessage
@@ -14,6 +14,9 @@ namespace NLog.Gelf.Net
 
         [JsonProperty("host")]
         public string Host { get; set; }
+
+        [JsonProperty("levelName")]
+        public string LevelName { get; set; }
 
         [JsonProperty("level")]
         public int Level { get; set; }

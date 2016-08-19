@@ -32,14 +32,19 @@ namespace NLog.Gelf
 
         private GelfMessage CreateGelfJsonFromLoggingEvent(LogEventInfo logEventInfo)
         {
-            var shortMessage = logEventInfo.FormattedMessage.Length > ShortMessageLength ? logEventInfo.FormattedMessage.Substring(0, ShortMessageLength - 1) : logEventInfo.FormattedMessage;
+            if (logEventInfo == null) throw new ArgumentNullException(nameof(logEventInfo));
+
+            var formattedMessage = logEventInfo.FormattedMessage ?? "";
+
+            var shortMessage = formattedMessage.Length > ShortMessageLength ? formattedMessage.Substring(0, ShortMessageLength - 1) : formattedMessage;
 
             var gelfMessage = new GelfMessage
             {
                 Facility = Facility ?? "GELF",
-                FullMessage = logEventInfo.FormattedMessage,
+                FullMessage = formattedMessage,
                 Host = Dns.GetHostName(),
-                Level = logEventInfo.Level.GelfSeverity(),
+                Level = logEventInfo.Level.Ordinal,
+                LevelName = logEventInfo.Level.ToString(),
                 ShortMessage = shortMessage,
                 Logger = logEventInfo.LoggerName ?? ""
             };
@@ -49,7 +54,7 @@ namespace NLog.Gelf
                 object notes;
                 if (logEventInfo.Properties.TryGetValue("Notes", out notes))
                 {
-                    gelfMessage.Notes = (string)notes;
+                    gelfMessage.Notes = notes as string;
                 }
             }
 
@@ -77,7 +82,8 @@ namespace NLog.Gelf
                 Facility = Facility ?? "GELF",
                 FullMessage = "Error sending message in NLog.GelfHttpTarget",
                 Host = Dns.GetHostName(),
-                Level = LogLevel.Fatal.GelfSeverity(),
+                Level = LogLevel.Fatal.Ordinal,
+                LevelName = LogLevel.Fatal.ToString(),
                 ShortMessage = "Error sending message in NLog.GelfHttpTarget"
             };
 
