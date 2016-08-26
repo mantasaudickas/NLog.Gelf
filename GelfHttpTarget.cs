@@ -16,9 +16,14 @@ namespace NLog.Gelf
 
         public string Facility { get; set; }
 
+        public string Debug { get; set; }
+
         protected override void Write(LogEventInfo logEvent)
         {
-            var sender = new GelfSender(ServerUrl);
+            var debugConfig = (Debug ?? string.Empty).ToLowerInvariant();
+            var debugEnabled = debugConfig == "true" || debugConfig == "1";
+
+            var sender = new GelfSender(ServerUrl, debugEnabled);
             try
             {
                 sender.Send(CreateGelfJsonFromLoggingEvent(logEvent));

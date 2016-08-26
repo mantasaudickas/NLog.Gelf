@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NLog.Gelf", "NLog.Gelf.xproj", "{4B4E1839-DB9E-46EF-AB15-14551DAD4F8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLog.Gelf.Test", "..\NLog.Gelf.Test\NLog.Gelf.Test.csproj", "{8636EE2E-7400-4333-8787-F00B7DE0D154}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4B4E1839-DB9E-46EF-AB15-14551DAD4F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B4E1839-DB9E-46EF-AB15-14551DAD4F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B4E1839-DB9E-46EF-AB15-14551DAD4F8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8636EE2E-7400-4333-8787-F00B7DE0D154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8636EE2E-7400-4333-8787-F00B7DE0D154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8636EE2E-7400-4333-8787-F00B7DE0D154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8636EE2E-7400-4333-8787-F00B7DE0D154}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
