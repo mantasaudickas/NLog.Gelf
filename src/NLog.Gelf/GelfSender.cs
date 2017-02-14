@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog.Common;
@@ -71,8 +70,9 @@ namespace NLog.Gelf
 
             var url = new Uri(_serverUrl);
 
-            var response = Task.Run(async () => await _httpClient.PostAsync(url, content));
-            var result = response.Result;
+            var result = _httpClient.PostAsync(url, content).GetAwaiter().GetResult();
+            if (!result.IsSuccessStatusCode)
+                InternalLogger.Error($"Unable to send log message: {result.ReasonPhrase}");
 
             if (_debugEnabled)
                 InternalLogger.Debug($"Response status code {result.StatusCode}.");

@@ -10,6 +10,8 @@ namespace NLog.Gelf
     public class GelfHttpTarget : Target
     {
         private const int ShortMessageLength = 250;
+        private GelfSender _gelfSender;
+        private string _hostname;
 
         [RequiredParameter]
         public string ServerUrl { get; set; }
@@ -18,20 +20,45 @@ namespace NLog.Gelf
 
         public string Debug { get; set; }
 
+        private GelfSender Sender
+        {
+            get
+            {
+                if (_gelfSender == null)
+                {
+                    var debugConfig = (Debug ?? string.Empty).ToLowerInvariant();
+                    var debugEnabled = debugConfig == "true" || debugConfig == "1";
+
+                    lock (this)
+                    {
+                        _gelfSender = new GelfSender(ServerUrl, debugEnabled);
+                    }
+                }
+
+                return _gelfSender;
+            }
+        }
+
+        private string HostName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_hostname))
+                    _hostname = Dns.GetHostName();
+                return _hostname;
+            }
+        }
+
         protected override void Write(LogEventInfo logEvent)
         {
-            var debugConfig = (Debug ?? string.Empty).ToLowerInvariant();
-            var debugEnabled = debugConfig == "true" || debugConfig == "1";
-
-            var sender = new GelfSender(ServerUrl, debugEnabled);
             try
             {
-                sender.Send(CreateGelfJsonFromLoggingEvent(logEvent));
+                Sender.Send(CreateGelfJsonFromLoggingEvent(logEvent));
             }
             catch (Exception ex)
             {
                 InternalLogger.Log(ex, LogLevel.Error, "Unable to send logging event to remote host " + ServerUrl);
-                sender.Send(CreateFatalGelfJson(ex));
+                Sender.Send(CreateFatalGelfJson(ex));
             }
         }
 
@@ -86,7 +113,7 @@ namespace NLog.Gelf
             {
                 Facility = Facility ?? "GELF",
                 FullMessage = "Error sending message in NLog.GelfHttpTarget",
-                Host = Dns.GetHostName(),
+                Host = HostName,
                 Level = LogLevel.Fatal.Ordinal,
                 LevelName = LogLevel.Fatal.ToString(),
                 ShortMessage = "Error sending message in NLog.GelfHttpTarget"

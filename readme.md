@@ -1,7 +1,13 @@
-Extension is developed using .NET core targeting .net standard 1.3.
-It can be added also to regular .NET project, however make sure to add these additional nuget packages:
-- System.Net.Http
-- System.Net.NameResolution
+Extension is developed using .NET core app 1.0
+
+Installation:
+```
+dotnet add package NLog.Gelf
+```
+OR
+```
+Install-Package NLog.Gelf
+```
 
 
 To use NLog.Gelf just add the following to your config file and place NLog.Gelf.dll in the same location as the NLog.dll file:
@@ -13,7 +19,7 @@ To use NLog.Gelf just add the following to your config file and place NLog.Gelf.
     </extensions>
 
     <targets>
-        <target name="Gelf" type="GelfHttp" serverUrl="http://localhost:12202" facility="your app name"/>
+        <target name="Gelf" type="GelfHttp" serverUrl="http://localhost:12201/gelf" facility="your app name"/>
     </targets>
 
     <rules>
@@ -22,38 +28,39 @@ To use NLog.Gelf just add the following to your config file and place NLog.Gelf.
 </nlog>
 ```
 
-Tested with graylog 2.0.0-1 server docker container.
+Tested with graylog 2.1.1 server docker container.
 docker-compose.yml file:
 
 ```
-graylog-mongo:
-  image: "mongo:3"
-  container_name: graylog-mongo
-graylog-elasticsearch:
-  image: "elasticsearch"
-  container_name: graylog-elasticsearch
-  command: "elasticsearch -Des.cluster.name=graylog"
-graylog:
-  image: graylog2/server:2.0.0-1
-  container_name: graylog
-  environment:
-    GRAYLOG_PASSWORD_SECRET: somepasswordpepper
-    GRAYLOG_ROOT_PASSWORD_SHA2: 415e8a6ba1c3eb93e81df34731acc3d60efee685c8e6f7412592a45ba3a0e3b0
-    GRAYLOG_REST_TRANSPORT_URI: http://127.0.0.1:12900
-  links:
-    - graylog-elasticsearch:elasticsearch
-    - graylog-mongo:mongo
-  ports:
-    - "9000:9000"
-    - "12900:12900"
-    - "12201:12201"
-    - "12202:12202"
+version: '2'
+services:
+    graylog-mongo:
+      image: "mongo:3"
+      container_name: graylog-mongo
+    graylog-elasticsearch:
+      image: "elasticsearch:2"
+      container_name: graylog-elasticsearch
+      command: "elasticsearch -Des.cluster.name='graylog'"
+    graylog:
+      image: graylog2/server:2.1.1-1
+      container_name: graylog
+      environment:
+        GRAYLOG_PASSWORD_SECRET: somepasswordpepper
+        GRAYLOG_ROOT_PASSWORD_SHA2: 415e8a6ba1c3eb93e81df34731acc3d60efee685c8e6f7412592a45ba3a0e3b0
+        GRAYLOG_WEB_ENDPOINT_URI: http://127.0.0.1:9000/api
+      links:
+        - graylog-elasticsearch:elasticsearch
+        - graylog-mongo:mongo
+      ports:
+        - "9000:9000"
+        - "12201/udp:12201/udp"
+        - "1514/udp:1514/udp"
 ```
 
 In order to start container execute command in the same folder as docker-compose.yml file is stored:
 
 ```
-docker-compose up
+docker-compose up -d
 ```
 
 Here it uses default admin password. Please change it to your strong password.

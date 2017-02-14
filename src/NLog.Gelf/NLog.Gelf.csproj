@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <PackageProjectUrl>https://github.com/mantasaudickas/NLog.Gelf</PackageProjectUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.0.12</AssemblyVersion>
+    <FileVersion>1.0.0.12</FileVersion>
+    <PackageReleaseNotes>- Migrated to latest .NET core project
+- Fix: connections not closed</PackageReleaseNotes>
+    <Version>1.0.12-beta</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta2" />
+  </ItemGroup>
+
+</Project>
