@@ -6,7 +6,7 @@ dotnet add package NLog.Gelf
 ```
 OR
 ```
-Install-Package NLog.Gelf
+Install-Package NLog.Gelf -Pre
 ```
 
 
@@ -53,8 +53,8 @@ services:
         - graylog-mongo:mongo
       ports:
         - "9000:9000"
-        - "12201/udp:12201/udp"
-        - "1514/udp:1514/udp"
+        - "12201:12201"
+        - "1514:1514"
 ```
 
 In order to start container execute command in the same folder as docker-compose.yml file is stored:
