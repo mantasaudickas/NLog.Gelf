@@ -10,15 +10,22 @@ namespace NLog.Gelf.Test
             var factory = new LogFactory();
             var logger = factory.GetLogger("Test.Logger");
 
-            var timer = Stopwatch.StartNew();
-            for (int i = 0; i < 10000; ++i)
+            while (true)
             {
-                logger.Log(LogLevel.Info, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fffffff}");
+                var timer = Stopwatch.StartNew();
+                for (int i = 0; i < 100; ++i)
+                {
+                    logger.Log(LogLevel.Info, $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fffffff}");
+                }
+                timer.Stop();
+                Console.WriteLine("Time spent: {0}", timer.ElapsedMilliseconds);
+
+                Console.WriteLine("Press ANY key to repeat, ESC to exit");
+
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Escape)
+                    break;
             }
-            timer.Stop();
-            Console.WriteLine("Time spent: {0}", timer.ElapsedMilliseconds);
-            Console.WriteLine("Press ENTER to exit");
-            Console.ReadLine();
         }
     }
 }
