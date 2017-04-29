@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using NLog.Common;
 using NLog.Config;
@@ -69,14 +70,14 @@ namespace NLog.Gelf
             var formattedMessage = logEventInfo.FormattedMessage ?? "";
 
             var shortMessage = formattedMessage.Length > ShortMessageLength ? formattedMessage.Substring(0, ShortMessageLength - 1) : formattedMessage;
-
+            var syslogLevel = MapToSyslogSeverity(logEventInfo.Level);
             var gelfMessage = new GelfMessage
             {
                 Facility = Facility ?? "GELF",
                 FullMessage = formattedMessage,
                 Host = Dns.GetHostName(),
-                Level = logEventInfo.Level.Ordinal,
-                LevelName = logEventInfo.Level.ToString(),
+                Level = (int) syslogLevel,
+                LevelName = syslogLevel.ToString(),
                 ShortMessage = shortMessage,
                 Logger = logEventInfo.LoggerName ?? ""
             };
@@ -134,6 +135,26 @@ namespace NLog.Gelf
             }
 
             return gelfMessage;
+        }
+
+        private static readonly Dictionary<string, SyslogSeverity> LogLevelMap = new Dictionary<string, SyslogSeverity>
+        {
+            {LogLevel.Trace.Name, SyslogSeverity.Informational},
+            {LogLevel.Debug.Name, SyslogSeverity.Debug},
+            {LogLevel.Info.Name, SyslogSeverity.Notice},
+            {LogLevel.Warn.Name, SyslogSeverity.Warning},
+            {LogLevel.Error.Name, SyslogSeverity.Error},
+            {LogLevel.Fatal.Name, SyslogSeverity.Alert}
+        };
+
+        private SyslogSeverity MapToSyslogSeverity(LogLevel level)
+        {
+            SyslogSeverity severity;
+
+            if (LogLevelMap.TryGetValue(level.Name, out severity))
+                return severity;
+
+            return SyslogSeverity.Informational;
         }
     }
 }

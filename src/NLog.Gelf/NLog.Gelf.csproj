@@ -4,16 +4,16 @@
     <TargetFramework>netcoreapp1.0</TargetFramework>
     <PackageProjectUrl>https://github.com/mantasaudickas/NLog.Gelf</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyVersion>1.0.0.12</AssemblyVersion>
-    <FileVersion>1.0.0.12</FileVersion>
-    <PackageReleaseNotes>- Migrated to latest .NET core project
-- Fix: connections not closed</PackageReleaseNotes>
-    <Version>1.0.12-beta</Version>
+    <AssemblyVersion>1.1.0.1</AssemblyVersion>
+    <FileVersion>1.1.0.1</FileVersion>
+    <PackageReleaseNotes>- Breaking: fix mapping from log level to syslog level</PackageReleaseNotes>
+    <Version>1.0.0-rtm-beta4</Version>
+    <Description>Http Gelf sender for NLog</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta2" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta4" />
   </ItemGroup>
 
 </Project>
