@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFramework>netstandard1.3</TargetFramework>
     <PackageProjectUrl>https://github.com/mantasaudickas/NLog.Gelf</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <AssemblyVersion>1.1.0.1</AssemblyVersion>
     <FileVersion>1.1.0.1</FileVersion>
     <PackageReleaseNotes>- Breaking: fix mapping from log level to syslog level</PackageReleaseNotes>
-    <Version>1.0.0-rtm-beta4</Version>
+    <Version>1.1.1-rtm-beta4</Version>
     <Description>Http Gelf sender for NLog</Description>
   </PropertyGroup>
 
