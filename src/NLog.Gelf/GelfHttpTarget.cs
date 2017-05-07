@@ -59,7 +59,7 @@ namespace NLog.Gelf
             catch (Exception ex)
             {
                 InternalLogger.Log(ex, LogLevel.Error, "Unable to send logging event to remote host " + ServerUrl);
-                Sender.Send(CreateFatalGelfJson(ex));
+                //Sender.Send(CreateFatalGelfJson(ex));
             }
         }
 
@@ -108,7 +108,7 @@ namespace NLog.Gelf
             return gelfMessage;
         }
 
-        private GelfMessage CreateFatalGelfJson(Exception exception)
+        /*private GelfMessage CreateFatalGelfJson(Exception exception)
         {
             var gelfMessage = new GelfMessage
             {
@@ -135,7 +135,7 @@ namespace NLog.Gelf
             }
 
             return gelfMessage;
-        }
+        }*/
 
         private static readonly Dictionary<string, SyslogSeverity> LogLevelMap = new Dictionary<string, SyslogSeverity>
         {
