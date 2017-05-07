@@ -139,9 +139,9 @@ namespace NLog.Gelf
 
         private static readonly Dictionary<string, SyslogSeverity> LogLevelMap = new Dictionary<string, SyslogSeverity>
         {
-            {LogLevel.Trace.Name, SyslogSeverity.Informational},
+            {LogLevel.Trace.Name, SyslogSeverity.Debug},
             {LogLevel.Debug.Name, SyslogSeverity.Debug},
-            {LogLevel.Info.Name, SyslogSeverity.Notice},
+            {LogLevel.Info.Name, SyslogSeverity.Informational},
             {LogLevel.Warn.Name, SyslogSeverity.Warning},
             {LogLevel.Error.Name, SyslogSeverity.Error},
             {LogLevel.Fatal.Name, SyslogSeverity.Alert}
@@ -154,7 +154,7 @@ namespace NLog.Gelf
             if (LogLevelMap.TryGetValue(level.Name, out severity))
                 return severity;
 
-            return SyslogSeverity.Informational;
+            return SyslogSeverity.Debug;
         }
     }
 }
