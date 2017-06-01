@@ -4,22 +4,22 @@
     <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
     <PackageProjectUrl>https://github.com/mantasaudickas/NLog.Gelf</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyVersion>1.1.2.0</AssemblyVersion>
-    <FileVersion>1.1.2.0</FileVersion>
+    <AssemblyVersion>1.1.2.5</AssemblyVersion>
+    <FileVersion>1.1.2.5</FileVersion>
     <PackageReleaseNotes>- Breaking: fix mapping from log level to syslog level</PackageReleaseNotes>
-    <Version>1.1.2-rtm-beta4</Version>
+    <Version>1.1.2-rtm-beta5</Version>
     <Description>Http Gelf sender for NLog</Description>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta4" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta5" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-    <PackageReference Include="NLog" Version="4.4.9" />
-    <PackageReference Include="System.Net.Http" Version="4.3.1" />
+    <PackageReference Include="NLog" Version="4.4.10" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
 
 </Project>
