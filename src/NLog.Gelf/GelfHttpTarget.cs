@@ -8,7 +8,7 @@ using NLog.Targets;
 namespace NLog.Gelf
 {
     [Target("GelfHttp")]
-    public class GelfHttpTarget : Target
+    public class GelfHttpTarget : TargetWithLayout
     {
         private const int ShortMessageLength = 250;
         private GelfSender _gelfSender;
@@ -67,7 +67,7 @@ namespace NLog.Gelf
         {
             if (logEventInfo == null) throw new ArgumentNullException(nameof(logEventInfo));
 
-            var formattedMessage = logEventInfo.FormattedMessage ?? "";
+            var formattedMessage = this.Layout.Render(logEventInfo);
 
             var shortMessage = formattedMessage.Length > ShortMessageLength ? formattedMessage.Substring(0, ShortMessageLength - 1) : formattedMessage;
             var syslogLevel = MapToSyslogSeverity(logEventInfo.Level);
