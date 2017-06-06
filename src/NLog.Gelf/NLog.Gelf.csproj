@@ -4,10 +4,10 @@
     <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
     <PackageProjectUrl>https://github.com/mantasaudickas/NLog.Gelf</PackageProjectUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyVersion>1.1.2.5</AssemblyVersion>
-    <FileVersion>1.1.2.5</FileVersion>
-    <PackageReleaseNotes>- Breaking: fix mapping from log level to syslog level</PackageReleaseNotes>
-    <Version>1.1.2-rtm-beta5</Version>
+    <AssemblyVersion>1.1.2.6</AssemblyVersion>
+    <FileVersion>1.1.2.6</FileVersion>
+    <PackageReleaseNotes>Added Gelf UDP target</PackageReleaseNotes>
+    <Version>1.1.2-rtm-beta6</Version>
     <Description>Http Gelf sender for NLog</Description>
   </PropertyGroup>
 
