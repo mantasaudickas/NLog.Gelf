@@ -57,10 +57,17 @@ namespace NLog.Gelf
 
             if (logEventInfo.Properties != null)
             {
-                object notes;
-                if (logEventInfo.Properties.TryGetValue("Notes", out notes))
+                gelfMessage.Fields = new Dictionary<string, string>();
+                foreach (var kv in logEventInfo.Properties)
                 {
-                    gelfMessage.Notes = notes as string;
+                    if (kv.Key.ToString() == "Notes")
+                    {
+                        gelfMessage.Notes = kv.Value.ToString();
+                    }
+                    else
+                    {
+                        gelfMessage.Fields.Add(kv.Key.ToString(), kv.Value?.ToString());
+                    }
                 }
             }
 
