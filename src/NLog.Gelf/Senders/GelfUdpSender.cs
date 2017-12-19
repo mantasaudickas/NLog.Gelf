@@ -10,7 +10,7 @@ namespace NLog.Gelf.Senders
         public GelfUdpSender(string server, int port, bool debugEnabled = false)
             : base (server, debugEnabled)
         {
-            this._port = port;
+            _port = port;
         }
 
         protected override bool Send(string message)
@@ -18,7 +18,7 @@ namespace NLog.Gelf.Senders
             using (var udpClient = new UdpClient())
             {
                 var bytes = Encoding.UTF8.GetBytes(message);
-                return udpClient.SendAsync(bytes, bytes.Length, this.ServerUrl, this._port).Result > 0;
+                return udpClient.SendAsync(bytes, bytes.Length, ServerUrl, _port).Result > 0;
             }
         }
     }

@@ -12,8 +12,8 @@ namespace NLog.Gelf.Senders
 
         protected GelfBaseSender(string serverUrl, bool debugEnabled = false)
         {
-            this.ServerUrl = serverUrl;
-            this.DebugEnabled = debugEnabled;
+            ServerUrl = serverUrl;
+            DebugEnabled = debugEnabled;
         }
 
         protected abstract bool Send(string message);
@@ -21,31 +21,32 @@ namespace NLog.Gelf.Senders
         public void Send(GelfMessage message)
         {
             var json = new JObject();
-            this.Add(json, "short_message", message.ShortMessage);
-            this.Add(json, "full_message", message.FullMessage);
-            this.Add(json, "host", message.Host);
-            this.Add(json, "level", message.Level.ToString());
-            this.Add(json, "facility", message.Facility);
-            this.Add(json, "_levelName", message.LevelName);
-            this.Add(json, "_exception_type", message.ExceptionType);
-            this.Add(json, "_exception_message", message.ExceptionMessage);
-            this.Add(json, "_exception_stack_trace", message.StackTrace);
-            this.Add(json, "_logger", message.Logger);
+            Add(json, "short_message", message.ShortMessage);
+            Add(json, "full_message", message.FullMessage);
+            Add(json, "host", message.Host);
+            Add(json, "level", message.Level.ToString());
+            Add(json, "facility", message.Facility);
+            Add(json, "_levelName", message.LevelName);
+            Add(json, "_exception_type", message.ExceptionType);
+            Add(json, "_exception_message", message.ExceptionMessage);
+            Add(json, "_exception_stack_trace", message.StackTrace);
+            Add(json, "_logger", message.Logger);
 
-            if (message.Fields != null)
+            if (message.Fields != null && message.Fields.Count > 0)
             {
                 foreach (var pair in message.Fields)
                 {
-                    this.Add(json, "_" + pair.Key, pair.Value);
+                    Add(json, "_" + pair.Key, pair.Value);
                 }
             }
 
             var body = JsonConvert.SerializeObject(json);
-            if (this.DebugEnabled)
-                InternalLogger.Debug($"Sending to {this.ServerUrl} message: {body}");
-            var result = this.Send(body);
+            if (DebugEnabled)
+                InternalLogger.Debug($"Sending to {ServerUrl} message: {body}");
 
-            if (this.DebugEnabled)
+            var result = Send(body);
+
+            if (DebugEnabled)
                 InternalLogger.Debug($"Response {(result ? "successful" : "failed")}.");
         }
 

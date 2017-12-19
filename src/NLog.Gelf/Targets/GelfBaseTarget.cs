@@ -6,12 +6,13 @@ using NLog.Config;
 using NLog.Gelf.Senders;
 using NLog.Targets;
 
+// ReSharper disable once CheckNamespace
 namespace NLog.Gelf
 {
     public abstract class GelfBaseTarget : TargetWithLayout
     {
         private const int ShortMessageLength = 250;
-        private string _hostname;
+        private static readonly string Hostname = Dns.GetHostName();
 
         [RequiredParameter]
         public string ServerUrl { get; set; }
@@ -36,26 +37,27 @@ namespace NLog.Gelf
                 //Sender.Send(CreateFatalGelfJson(ex));
             }
         }
+
         private GelfMessage CreateGelfJsonFromLoggingEvent(LogEventInfo logEventInfo)
         {
             if (logEventInfo == null) throw new ArgumentNullException(nameof(logEventInfo));
 
-            var formattedMessage = this.Layout.Render(logEventInfo);
+            var formattedMessage = Layout.Render(logEventInfo);
 
             var shortMessage = formattedMessage.Length > ShortMessageLength ? formattedMessage.Substring(0, ShortMessageLength - 1) : formattedMessage;
             var syslogLevel = MapToSyslogSeverity(logEventInfo.Level);
             var gelfMessage = new GelfMessage
-                                  {
-                                      Facility = Facility ?? "GELF",
-                                      FullMessage = formattedMessage,
-                                      Host = Dns.GetHostName(),
-                                      Level = (int)syslogLevel,
-                                      LevelName = syslogLevel.ToString(),
-                                      ShortMessage = shortMessage,
-                                      Logger = logEventInfo.LoggerName ?? ""
-                                  };
+            {
+                Facility = Facility ?? "GELF",
+                FullMessage = formattedMessage,
+                Host = Hostname,
+                Level = (int) syslogLevel,
+                LevelName = syslogLevel.ToString(),
+                ShortMessage = shortMessage,
+                Logger = logEventInfo.LoggerName ?? ""
+            };
 
-            if (logEventInfo.Properties != null)
+            if (logEventInfo.Properties != null && logEventInfo.Properties.Count > 0)
             {
                 gelfMessage.Fields = new Dictionary<string, string>();
                 foreach (var kv in logEventInfo.Properties)
@@ -89,33 +91,21 @@ namespace NLog.Gelf
         }
 
         private static readonly Dictionary<string, SyslogSeverity> LogLevelMap = new Dictionary<string, SyslogSeverity>
-                                                                                     {
-                                                                                         {LogLevel.Trace.Name, SyslogSeverity.Debug},
-                                                                                         {LogLevel.Debug.Name, SyslogSeverity.Debug},
-                                                                                         {LogLevel.Info.Name, SyslogSeverity.Informational},
-                                                                                         {LogLevel.Warn.Name, SyslogSeverity.Warning},
-                                                                                         {LogLevel.Error.Name, SyslogSeverity.Error},
-                                                                                         {LogLevel.Fatal.Name, SyslogSeverity.Alert}
-                                                                                     };
+        {
+            {LogLevel.Trace.Name, SyslogSeverity.Debug},
+            {LogLevel.Debug.Name, SyslogSeverity.Debug},
+            {LogLevel.Info.Name, SyslogSeverity.Informational},
+            {LogLevel.Warn.Name, SyslogSeverity.Warning},
+            {LogLevel.Error.Name, SyslogSeverity.Error},
+            {LogLevel.Fatal.Name, SyslogSeverity.Alert}
+        };
 
         private SyslogSeverity MapToSyslogSeverity(LogLevel level)
         {
-            SyslogSeverity severity;
-
-            if (LogLevelMap.TryGetValue(level.Name, out severity))
+            if (LogLevelMap.TryGetValue(level.Name, out var severity))
                 return severity;
 
             return SyslogSeverity.Debug;
-        }
-
-        private string HostName
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_hostname))
-                    _hostname = Dns.GetHostName();
-                return _hostname;
-            }
         }
     }
 }

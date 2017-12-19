@@ -1,6 +1,7 @@
 ﻿using NLog.Targets;
 using NLog.Gelf.Senders;
 
+// ReSharper disable once CheckNamespace
 namespace NLog.Gelf
 {
     [Target("GelfHttp")]
@@ -14,7 +15,7 @@ namespace NLog.Gelf
             {
                 if (_gelfSender == null)
                 {
-                    var debugConfig = (Debug ?? string.Empty).ToLowerInvariant();
+                    var debugConfig = (Debug ?? string.Empty).ToLower();
                     var debugEnabled = debugConfig == "true" || debugConfig == "1";
 
                     lock (this)
